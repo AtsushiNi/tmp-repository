@@ -1,0 +1,236 @@
+{
+  "tables": [
+    {
+      "name": "employees",
+      "description": "従業員情報を管理するテーブル",
+      "properties": [
+        {
+          "name": "employee_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "従業員ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "従業員名"
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "所属部署"
+        },
+        {
+          "name": "hire_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "入社日"
+        }
+      ]
+    },
+    {
+      "name": "attendance_records",
+      "description": "出退勤記録を管理するテーブル",
+      "properties": [
+        {
+          "name": "attendance_record_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "記録ID"
+        },
+        {
+          "name": "employee_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "従業員ID"
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "出勤日"
+        },
+        {
+          "name": "start_time",
+          "type": "time",
+          "nullable": false,
+          "pk": false,
+          "description": "出勤時間"
+        },
+        {
+          "name": "end_time",
+          "type": "time",
+          "nullable": true,
+          "pk": false,
+          "description": "退勤時間"
+        }
+      ]
+    },
+    {
+      "name": "leave_requests",
+      "description": "休暇申請を管理するテーブル",
+      "properties": [
+        {
+          "name": "leave_request_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "申請ID"
+        },
+        {
+          "name": "employee_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "従業員ID"
+        },
+        {
+          "name": "leave_type",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "休暇種別（有給、病気、その他）"
+        },
+        {
+          "name": "start_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "休暇開始日"
+        },
+        {
+          "name": "end_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "休暇終了日"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "申請状態（申請中、承認、却下）"
+        }
+      ]
+    },
+    {
+      "name": "departments",
+      "description": "部署情報を管理するテーブル",
+      "properties": [
+        {
+          "name": "department_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "部署ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "部署名"
+        },
+        {
+          "name": "manager_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "description": "部署長の従業員ID"
+        }
+      ]
+    },
+    {
+      "name": "work_schedules",
+      "description": "勤務スケジュールを管理するテーブル",
+      "properties": [
+        {
+          "name": "work_schedule_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "スケジュールID"
+        },
+        {
+          "name": "employee_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "従業員ID"
+        },
+        {
+          "name": "work_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "勤務日"
+        },
+        {
+          "name": "scheduled_start",
+          "type": "time",
+          "nullable": false,
+          "pk": false,
+          "description": "予定出勤時間"
+        },
+        {
+          "name": "scheduled_end",
+          "type": "time",
+          "nullable": false,
+          "pk": false,
+          "description": "予定退勤時間"
+        }
+      ]
+    },
+    {
+      "name": "overtime_records",
+      "description": "残業記録を管理するテーブル",
+      "properties": [
+        {
+          "name": "overtime_record_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "記録ID"
+        },
+        {
+          "name": "employee_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "従業員ID"
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "残業日"
+        },
+        {
+          "name": "hours",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "残業時間"
+        },
+        {
+          "name": "approved",
+          "type": "boolean",
+          "nullable": false,
+          "pk": false,
+          "description": "承認済みかどうか"
+        }
+      ]
+    }
+  ]
+}

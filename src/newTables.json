@@ -1,0 +1,551 @@
+{
+  "tables": [
+    {
+      "name": "products",
+      "description": "商品マスタテーブル",
+      "properties": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "商品ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "商品名"
+        },
+        {
+          "name": "category_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "カテゴリID"
+        },
+        {
+          "name": "unit_price",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "単価"
+        },
+        {
+          "name": "cost_price",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "原価"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "商品説明"
+        }
+      ]
+    },
+    {
+      "name": "warehouses",
+      "description": "倉庫マスタテーブル",
+      "properties": [
+        {
+          "name": "warehouse_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "倉庫ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "倉庫名"
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "所在地"
+        },
+        {
+          "name": "capacity",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "description": "収容可能数"
+        }
+      ]
+    },
+    {
+      "name": "inventories",
+      "description": "在庫情報テーブル",
+      "properties": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "商品ID"
+        },
+        {
+          "name": "warehouse_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "倉庫ID"
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "在庫数量"
+        },
+        {
+          "name": "last_updated",
+          "type": "datetime",
+          "nullable": false,
+          "pk": false,
+          "description": "最終更新日時"
+        }
+      ]
+    },
+    {
+      "name": "inventory_transactions",
+      "description": "入出庫履歴テーブル",
+      "properties": [
+        {
+          "name": "inventory_transaction_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "トランザクションID"
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "商品ID"
+        },
+        {
+          "name": "warehouse_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "倉庫ID"
+        },
+        {
+          "name": "transaction_type",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "入庫/出庫"
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "数量"
+        },
+        {
+          "name": "transaction_date",
+          "type": "datetime",
+          "nullable": false,
+          "pk": false,
+          "description": "処理日時"
+        },
+        {
+          "name": "related_order_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "description": "関連発注ID"
+        }
+      ]
+    },
+    {
+      "name": "suppliers",
+      "description": "仕入先マスタテーブル",
+      "properties": [
+        {
+          "name": "supplier_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "仕入先ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "仕入先名"
+        },
+        {
+          "name": "contact_person",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "担当者名"
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "電話番号"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "メールアドレス"
+        }
+      ]
+    },
+    {
+      "name": "customers",
+      "description": "顧客マスタテーブル",
+      "properties": [
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "顧客ID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "顧客名"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "住所"
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "電話番号"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "nullable": true,
+          "pk": false,
+          "description": "メールアドレス"
+        }
+      ]
+    },
+    {
+      "name": "purchase_orders",
+      "description": "発注情報テーブル",
+      "properties": [
+        {
+          "name": "order_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "発注ID"
+        },
+        {
+          "name": "supplier_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "仕入先ID"
+        },
+        {
+          "name": "order_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "発注日"
+        },
+        {
+          "name": "expected_delivery_date",
+          "type": "date",
+          "nullable": true,
+          "pk": false,
+          "description": "納品予定日"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "ステータス（発注済み/納品済み/キャンセル）"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "合計金額"
+        }
+      ]
+    },
+    {
+      "name": "purchase_order_details",
+      "description": "発注明細テーブル",
+      "properties": [
+        {
+          "name": "purchase_order_detail_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "明細ID"
+        },
+        {
+          "name": "order_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "発注ID"
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "商品ID"
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "数量"
+        },
+        {
+          "name": "unit_price",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "単価"
+        },
+        {
+          "name": "subtotal",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "小計"
+        }
+      ]
+    },
+    {
+      "name": "shipments",
+      "description": "出荷情報テーブル",
+      "properties": [
+        {
+          "name": "shipment_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "出荷ID"
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "顧客ID"
+        },
+        {
+          "name": "shipment_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "出荷日"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "ステータス（準備中/出荷済み/配送中/完了）"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "合計金額"
+        }
+      ]
+    },
+    {
+      "name": "shipment_details",
+      "description": "出荷明細テーブル",
+      "properties": [
+        {
+          "name": "shipment_detail_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "明細ID"
+        },
+        {
+          "name": "shipment_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "出荷ID"
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "商品ID"
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "数量"
+        },
+        {
+          "name": "unit_price",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "単価"
+        },
+        {
+          "name": "subtotal",
+          "type": "decimal",
+          "nullable": false,
+          "pk": false,
+          "description": "小計"
+        }
+      ]
+    },
+    {
+      "name": "inventory_counts",
+      "description": "棚卸情報テーブル",
+      "properties": [
+        {
+          "name": "count_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "棚卸ID"
+        },
+        {
+          "name": "warehouse_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "倉庫ID"
+        },
+        {
+          "name": "count_date",
+          "type": "date",
+          "nullable": false,
+          "pk": false,
+          "description": "棚卸日"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "ステータス（進行中/完了）"
+        }
+      ]
+    },
+    {
+      "name": "inventory_count_details",
+      "description": "棚卸明細テーブル",
+      "properties": [
+        {
+          "name": "inventory_count_detail_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "明細ID"
+        },
+        {
+          "name": "count_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "棚卸ID"
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "商品ID"
+        },
+        {
+          "name": "actual_quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "実在庫数"
+        },
+        {
+          "name": "system_quantity",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "システム在庫数"
+        },
+        {
+          "name": "variance",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "description": "差異"
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "description": "カテゴリマスタテーブル",
+      "properties": [
+        {
+          "name": "category_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "description": "カテゴリID"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "pk": false,
+          "description": "カテゴリ名"
+        },
+        {
+          "name": "parent_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "description": "親カテゴリID"
+        }
+      ]
+    }
+  ]
+}
