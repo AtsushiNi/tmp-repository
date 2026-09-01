@@ -1,0 +1,846 @@
+<title>gitlab-ai-platform 依存レイヤー図</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface-alt: #eaedf2;
+    --band-border: #c9d0da;
+    --ink: #1b2130;
+    --ink-muted: #5b6472;
+    --border: #d7dbe2;
+    --accent: #2c6e8c;
+    --accent-warm: #b5622a;
+    --chip-bg: #f7f8fa;
+    --chip-border: #c9d0da;
+    --code: #33465a;
+    --shadow: 0 1px 2px rgba(20, 30, 45, 0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171d;
+      --surface: #1b1f27;
+      --surface-alt: #20242d;
+      --band-border: #333a46;
+      --ink: #e7e9ee;
+      --ink-muted: #9aa3b2;
+      --border: #333a46;
+      --accent: #7cc0da;
+      --accent-warm: #e79459;
+      --chip-bg: #232833;
+      --chip-border: #333a46;
+      --code: #c7d0dd;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #14171d;
+    --surface: #1b1f27;
+    --surface-alt: #20242d;
+    --band-border: #333a46;
+    --ink: #e7e9ee;
+    --ink-muted: #9aa3b2;
+    --border: #333a46;
+    --accent: #7cc0da;
+    --accent-warm: #e79459;
+    --chip-bg: #232833;
+    --chip-border: #333a46;
+    --code: #c7d0dd;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  header.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 68ch;
+  }
+
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, "Source Serif Pro", serif;
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.2;
+    margin: 0;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  .lede {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  figure {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  figure svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  figcaption {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  /* --- svg content --- */
+  .band-rect { fill: var(--surface-alt); stroke: var(--band-border); stroke-width: 1.4; }
+  .band-title { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace; font-weight: 700; font-size: 14.5px; fill: var(--ink); }
+  .band-desc { font-family: -apple-system, "Segoe UI", Arial, sans-serif; font-size: 12.5px; fill: var(--ink-muted); }
+
+  .chip { fill: var(--chip-bg); stroke: var(--chip-border); stroke-width: 1.2; }
+  .chip-label { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace; font-size: 13px; fill: var(--code); text-anchor: middle; dominant-baseline: middle; }
+
+  .feature-tag-bg { fill: var(--surface); stroke: var(--accent); stroke-width: 1.1; }
+  .feature-tag-text { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace; font-size: 10.5px; fill: var(--accent); }
+
+  .flat-edge { stroke: var(--ink-muted); stroke-width: 1; opacity: 0.4; }
+  .flat-dot { fill: var(--accent-warm); }
+  .flat-label { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace; font-size: 11.5px; fill: var(--ink-muted); dominant-baseline: middle; }
+
+  .compare-label {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 12px;
+  }
+
+  .transition-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    padding-left: 4px;
+  }
+
+  .transition-row .arrow {
+    font-family: ui-monospace, monospace;
+    color: var(--accent);
+    font-size: 18px;
+  }
+
+  /* --- findings --- */
+  .findings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .finding .num {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  .finding h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  }
+
+  .finding p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-muted);
+  }
+
+  .finding code {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    color: var(--code);
+    background: var(--chip-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    border: 1px solid var(--chip-border);
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  footer code {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+  }
+
+  /* --- glossary --- */
+  .glossary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+  }
+
+  .glossary h2 {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .glossary dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px 24px;
+  }
+
+  .glossary dt {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--code);
+    display: inline;
+  }
+
+  .glossary dd {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .glossary .entry { padding: 2px 0; }
+
+  .glossary-group {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+
+  .glossary-group.is-first { margin-top: 0; }
+  .glossary-group:not(.is-first) { margin-top: 18px; }
+
+  /* --- edge list --- */
+  .edges {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+  }
+
+  .edges h2 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .edges .edges-note {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .edge-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px 24px;
+  }
+
+  .edge-group {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+  }
+
+  .edge-src {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edge-targets {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .edge-line {
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+
+  .edge-line .to {
+    color: var(--code);
+  }
+
+  .edge-none {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">gitlab-ai-platform · src/gitlab_ai_platform</span>
+    <h1>依存レイヤー図</h1>
+    <p class="lede">
+      現状は20モジュールがすべて同列(フラット)に並び、59本の依存エッジが縦横に交差している。
+      これを技術レイヤーではなく<b>ユーザーが使う機能</b>で束ね直すと、
+      <b>mr_review_watcher</b>(開発機上のMRレビュー)・<b>issue_pipeline_container</b>(Docker上の
+      Issue駆動自動実装)・<b>mcp</b>(単独で使えるGitLab操作)という3機能と、それらが使う
+      <b>engine</b>(実行エンジン)・<b>core</b>(全機能共通の土台)の5グループに分かれる。
+    </p>
+  </header>
+
+  <figure>
+    <span class="compare-label">現状 · フラット20モジュール</span>
+    <svg id="flatSvg" viewBox="0 0 900 900" role="img" aria-label="現状のsrc/gitlab_ai_platform配下。20モジュールが同列に並び、59本の依存の矢印が円周上を交差する図。cli・logging_・orchestrator周辺に矢印が集中している。">
+      <defs>
+        <marker id="arrFlat" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" style="fill:var(--ink-muted); stroke:none;"/>
+        </marker>
+      </defs>
+    </svg>
+    <script>
+      (function () {
+        var nodes = ["adapter_mcp_server","api","cli","config","design","gitlab_adapter","implement","issue_analysis","issue_store","job","logging_","orchestrator","plan","poller","push","review","runner","store","webhook","workspace"];
+        var edges = [
+          ["adapter_mcp_server","config"],["adapter_mcp_server","gitlab_adapter"],["adapter_mcp_server","logging_"],
+          ["api","job"],["api","logging_"],
+          ["cli","api"],["cli","config"],["cli","design"],["cli","gitlab_adapter"],["cli","implement"],["cli","issue_analysis"],["cli","job"],["cli","logging_"],["cli","orchestrator"],["cli","plan"],["cli","poller"],["cli","push"],["cli","review"],["cli","runner"],["cli","store"],["cli","webhook"],["cli","workspace"],
+          ["design","logging_"],["design","orchestrator"],["design","runner"],
+          ["gitlab_adapter","logging_"],
+          ["implement","logging_"],["implement","orchestrator"],["implement","plan"],["implement","runner"],
+          ["issue_analysis","logging_"],["issue_analysis","orchestrator"],["issue_analysis","runner"],
+          ["orchestrator","design"],["orchestrator","implement"],["orchestrator","job"],["orchestrator","logging_"],["orchestrator","plan"],["orchestrator","push"],["orchestrator","review"],
+          ["plan","logging_"],["plan","orchestrator"],["plan","runner"],
+          ["poller","gitlab_adapter"],["poller","issue_store"],["poller","job"],["poller","logging_"],["poller","store"],
+          ["push","gitlab_adapter"],
+          ["review","job"],["review","logging_"],["review","runner"],
+          ["runner","gitlab_adapter"],["runner","logging_"],
+          ["store","config"],
+          ["webhook","logging_"],["webhook","poller"],["webhook","store"],
+          ["workspace","logging_"]
+        ];
+
+        var desc = {
+          cli: "単発実行/watch常駐モードの入口",
+          api: "HTTP API。JobをJob Queueに投入する入口",
+          webhook: "GitLab MR Hookを受信して起票",
+          adapter_mcp_server: "対話型Claude Code向けGitLab操作MCPサーバー",
+          poller: "MR/Issueを定期走査し未処理分を起票",
+          orchestrator: "issue-analysis→design→plan→implement→push→reviewを連鎖",
+          issue_analysis: "Issueの要求分析フェーズ",
+          design: "設計フェーズ",
+          plan: "実装計画フェーズ",
+          implement: "実装(コード生成)フェーズ",
+          push: "コミット・pushしてMR作成するフェーズ",
+          review: "レビュープロンプトと結果スキーマの定義",
+          gitlab_adapter: "GitLabとのやりとりを一手に引き受ける唯一の窓口",
+          runner: "worktree上でClaude Codeをヘッドレス実行",
+          workspace: "bare clone + worktreeの作成/更新/GC",
+          job: "Job抽象・状態機械とJob Queue",
+          store: "MRレビュー状態を記録(二重レビュー防止)",
+          issue_store: "Issue起票済み状態を記録(二重投入防止)",
+          config: "GitLab PAT・対象プロジェクト等の設定管理",
+          logging_: "構造化ログ・実行ID付与"
+        };
+
+        var svg = document.getElementById("flatSvg");
+        var ns = "http://www.w3.org/2000/svg";
+        var cx = 450, cy = 450, r = 330, labelR = r + 20;
+        var pos = {};
+        nodes.forEach(function (name, i) {
+          var angle = (-90 + i * (360 / nodes.length)) * Math.PI / 180;
+          pos[name] = { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle: angle };
+        });
+
+        var edgeLayer = document.createElementNS(ns, "g");
+        edges.forEach(function (pair) {
+          var a = pos[pair[0]], b = pos[pair[1]];
+          // 矢印の先が相手のドット(半径4.5)に埋もれないよう、少し手前で止める
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var len = Math.sqrt(dx * dx + dy * dy) || 1;
+          var ex = b.x - (dx / len) * 7, ey = b.y - (dy / len) * 7;
+          var line = document.createElementNS(ns, "line");
+          line.setAttribute("x1", a.x); line.setAttribute("y1", a.y);
+          line.setAttribute("x2", ex); line.setAttribute("y2", ey);
+          line.setAttribute("class", "flat-edge");
+          line.setAttribute("marker-end", "url(#arrFlat)");
+          edgeLayer.appendChild(line);
+        });
+        svg.appendChild(edgeLayer);
+
+        var nodeLayer = document.createElementNS(ns, "g");
+        nodes.forEach(function (name) {
+          var p = pos[name];
+          var g = document.createElementNS(ns, "g");
+
+          var title = document.createElementNS(ns, "title");
+          title.textContent = name + " — " + (desc[name] || "");
+          g.appendChild(title);
+
+          var dot = document.createElementNS(ns, "circle");
+          dot.setAttribute("cx", p.x); dot.setAttribute("cy", p.y); dot.setAttribute("r", 4.5);
+          dot.setAttribute("class", "flat-dot");
+          g.appendChild(dot);
+
+          var cos = Math.cos(p.angle);
+          var lx = cx + labelR * cos;
+          var ly = cy + labelR * Math.sin(p.angle);
+          var text = document.createElementNS(ns, "text");
+          text.setAttribute("x", lx); text.setAttribute("y", ly);
+          text.setAttribute("class", "flat-label");
+          text.setAttribute("text-anchor", cos > 0.15 ? "start" : (cos < -0.15 ? "end" : "middle"));
+          text.textContent = name;
+          g.appendChild(text);
+
+          nodeLayer.appendChild(g);
+        });
+        svg.appendChild(nodeLayer);
+      })();
+    </script>
+    <figcaption>
+      図: <b>src/gitlab_ai_platform/</b> 直下の20モジュールを、現在の並び順(アルファベット順)のまま円周上に配置し、
+      実際の import 関係(59本、矢印の先が import される側)をすべてつないだもの。
+      <b>cli</b>・<b>logging_</b>・<b>orchestrator</b> 周辺に矢印が集中しており、
+      どれが入口でどれが基盤なのかが図からは読み取れない。
+    </figcaption>
+  </figure>
+
+  <div class="transition-row"><span class="arrow">→</span><span>技術レイヤーではなく、ユーザーが使う機能の単位で束ね直すと(旧「4グループ」案は撤回):</span></div>
+
+  <figure>
+    <span class="compare-label">提案(見直し版) · mr_review_watcher / issue_pipeline_container / mcp / engine / core の5グループ</span>
+    <svg viewBox="0 0 1200 820" role="img" aria-label="mr_review_watcher・issue_pipeline_container・mcpという3つのユーザー機能、mr_review_watcherとissue_pipeline_containerだけが共有するengine、3機能全部が使うcoreという5つのグループからなる図。cliとpollerは機能ごとにファイル単位で分割される想定であることを示す。cli/single_run.pyはwatch.pyとdispatcher.py双方から呼ばれるためengineに含めている。">
+
+      <!-- Band A -->
+      <rect class="band-rect" x="60" y="30" width="1080" height="110" rx="10"/>
+      <text class="band-title" x="80" y="64">mr_review_watcher<tspan class="band-desc" dx="10">── エンジニアの開発機上、poll/webhookでMRレビュー</tspan></text>
+      <g>
+        <g><title>poller/poller.py — MRを定期走査(poller/の半分。issue_poller.pyとはファイル単位で分割)</title><rect class="chip" x="238" y="86" width="159" height="34" rx="6"/><text class="chip-label" x="317.5" y="104">poller/poller.py</text></g>
+        <g><title>webhook — GitLab MR Hookを受信して起票</title><rect class="chip" x="415" y="86" width="89" height="34" rx="6"/><text class="chip-label" x="459.5" y="104">webhook</text></g>
+        <g><title>cli/watch.py — 常駐レビューループ(cli/single_run.pyのexecute_review_jobを呼ぶ)</title><rect class="chip" x="522" y="86" width="128" height="34" rx="6"/><text class="chip-label" x="586" y="104">cli/watch.py</text></g>
+        <g><title>cli/worker_pool.py — 検出したMRを並行レビュー</title><rect class="chip" x="668" y="86" width="174" height="34" rx="6"/><text class="chip-label" x="755" y="104">cli/worker_pool.py</text></g>
+        <g><title>cli/lock.py — watchの多重起動防止</title><rect class="chip" x="860" y="86" width="120" height="34" rx="6"/><text class="chip-label" x="920" y="104">cli/lock.py</text></g>
+      </g>
+      <g><rect class="feature-tag-bg" x="895" y="112" width="145" height="20" rx="10"/><text class="feature-tag-text" x="967.5" y="126" text-anchor="middle">↓ engine・core へ依存</text></g>
+
+      <!-- Band B -->
+      <rect class="band-rect" x="60" y="180" width="1080" height="150" rx="10"/>
+      <text class="band-title" x="80" y="214">issue_pipeline_container<tspan class="band-desc" dx="10">── Dockerコンテナ上、poll/webhookで実装〜レビューまで完全自動</tspan></text>
+      <g>
+        <g><title>poller/issue_poller.py — Issueを定期走査(poller/の半分)</title><rect class="chip" x="318" y="236" width="206" height="34" rx="6"/><text class="chip-label" x="421" y="254">poller/issue_poller.py</text></g>
+        <g><title>api — HTTP API。JobをJob Queueに投入</title><rect class="chip" x="542" y="236" width="57" height="34" rx="6"/><text class="chip-label" x="570.5" y="254">api</text></g>
+        <g><title>issue_store — Issue起票済み状態を記録(二重投入防止)</title><rect class="chip" x="617" y="236" width="120" height="34" rx="6"/><text class="chip-label" x="677" y="254">issue_store</text></g>
+        <g><title>orchestrator — issue-analysis→design→plan→implement→push→reviewを連鎖</title><rect class="chip" x="755" y="236" width="128" height="34" rx="6"/><text class="chip-label" x="819" y="254">orchestrator</text></g>
+      </g>
+      <g>
+        <g><title>phases ×5 — issue_analysis / design / plan / implement / push(それぞれjob.py/parser.py/prompts.py/types.py/errors.pyという共通シェイプ)</title><rect class="chip" x="239" y="282" width="170" height="34" rx="6" style="stroke-dasharray:4 3"/><text class="chip-label" x="324" y="300">phases ×5</text></g>
+        <g><title>cli/dispatcher.py — Job Queueからclaimして処理し続けるWorker本体(review種別も処理する汎用エンジン)</title><rect class="chip" x="427" y="282" width="174" height="34" rx="6"/><text class="chip-label" x="514" y="300">cli/dispatcher.py</text></g>
+        <g><title>cli/api_server.py — apiサブコマンドの合成ルート</title><rect class="chip" x="619" y="282" width="174" height="34" rx="6"/><text class="chip-label" x="706" y="300">cli/api_server.py</text></g>
+        <g><title>cli/respond.py — WAITING_HUMANなJobへの人間の回答を取り込む</title><rect class="chip" x="811" y="282" width="151" height="34" rx="6"/><text class="chip-label" x="886.5" y="300">cli/respond.py</text></g>
+      </g>
+      <g><rect class="feature-tag-bg" x="895" y="252" width="145" height="20" rx="10"/><text class="feature-tag-text" x="967.5" y="266" text-anchor="middle">↓ engine・core へ依存</text></g>
+
+      <!-- Band C -->
+      <rect class="band-rect" x="60" y="370" width="1080" height="110" rx="10"/>
+      <text class="band-title" x="80" y="404">mcp<tspan class="band-desc" dx="10">── 単独で使えるGitLab操作。自動化は何も起動しない</tspan></text>
+      <g>
+        <g><title>adapter_mcp_server — Claude Codeの--mcp-configで直接起動できる、独立したGitLab操作ツール</title><rect class="chip" x="414" y="426" width="182" height="34" rx="6"/><text class="chip-label" x="505" y="444">adapter_mcp_server</text></g>
+        <g><title>cli/decompose.py — 要件→Issue分解の対話型セッション。adapter_mcp_serverを--mcp-configで登録して起動する</title><rect class="chip" x="620" y="426" width="167" height="34" rx="6"/><text class="chip-label" x="703.5" y="444">cli/decompose.py</text></g>
+      </g>
+      <g><rect class="feature-tag-bg" x="895" y="452" width="145" height="20" rx="10"/><text class="feature-tag-text" x="967.5" y="466" text-anchor="middle">↓ core へ依存</text></g>
+
+      <!-- Band D: AB-shared engine -->
+      <rect class="band-rect" x="60" y="520" width="1080" height="110" rx="10"/>
+      <text class="band-title" x="80" y="554">engine<tspan class="band-desc" dx="10">── mr_review_watcher・issue_pipeline_containerだけが共有する実行エンジン(mcpは使わない)</tspan></text>
+      <g>
+        <g><title>runner — worktree上でClaude Codeをヘッドレス実行</title><rect class="chip" x="270" y="576" width="81" height="34" rx="6"/><text class="chip-label" x="310.5" y="594">runner</text></g>
+        <g><title>workspace — bare clone + worktreeの作成/更新/GC</title><rect class="chip" x="369" y="576" width="104" height="34" rx="6"/><text class="chip-label" x="421" y="594">workspace</text></g>
+        <g><title>store — MRレビュー状態を記録(二重レビュー防止)</title><rect class="chip" x="491" y="576" width="73" height="34" rx="6"/><text class="chip-label" x="527.5" y="594">store</text></g>
+        <g><title>job — Job抽象・状態機械とJob Queue</title><rect class="chip" x="582" y="576" width="57" height="34" rx="6"/><text class="chip-label" x="610.5" y="594">job</text></g>
+        <g><title>review — レビュープロンプトと結果スキーマの定義。mr_review_watcherから直接、issue_pipeline_containerからはorchestrator経由(push完了後のself-review)で使われる</title><rect class="chip" x="657" y="576" width="81" height="34" rx="6"/><text class="chip-label" x="697.5" y="594">review</text></g>
+        <g><title>cli/single_run.py — execute_review(review本体の結線)。watch.py(mr_review_watcher)とdispatcher.py(issue_pipeline_container)の両方から直接呼ばれる、正真正銘の共有コア</title><rect class="chip" x="756" y="576" width="174" height="34" rx="6"/><text class="chip-label" x="843" y="594">cli/single_run.py</text></g>
+      </g>
+      <g><rect class="feature-tag-bg" x="895" y="602" width="145" height="20" rx="10"/><text class="feature-tag-text" x="967.5" y="616" text-anchor="middle">↓ core へ依存</text></g>
+
+      <!-- Band E: universal core -->
+      <rect class="band-rect" x="60" y="670" width="1080" height="110" rx="10"/>
+      <text class="band-title" x="80" y="704">core<tspan class="band-desc" dx="10">── mr_review_watcher/issue_pipeline_container/mcp全部が使う。何にも依存しない葉</tspan></text>
+      <g>
+        <g><title>gitlab_adapter — GitLabとのやりとりを一手に引き受ける唯一の窓口。依存はlogging_のみで、このアプリ固有の概念(review/Job等)は一切知らない。ほぼ独立したGitLabクライアントライブラリ</title><rect class="chip" x="420" y="726" width="143" height="34" rx="6"/><text class="chip-label" x="491.5" y="744">gitlab_adapter</text></g>
+        <g><title>logging_ — 構造化ログ・実行ID付与。依存ゼロの純粋な横断的ユーティリティ</title><rect class="chip" x="583" y="726" width="96" height="34" rx="6"/><text class="chip-label" x="631" y="744">logging_</text></g>
+        <g><title>config — GitLab PAT・対象プロジェクト等の設定管理。中身はmr_review_watcher専用10個/issue_pipeline_container専用5個/engine用12個/本当に共通3個の30フィールドが1つのdataclassに同居している(分割案は別途検討、今は1つのまま)</title><rect class="chip" x="699" y="726" width="81" height="34" rx="6"/><text class="chip-label" x="739.5" y="744">config</text></g>
+      </g>
+
+    </svg>
+    <figcaption>
+      <p style="margin:0 0 10px">
+        <b>mr_review_watcher</b>と<b>issue_pipeline_container</b>は別プロセス・別環境で動く
+        (<code style="font-family:ui-monospace,monospace">cli/watch.py</code>の
+        <code style="font-family:ui-monospace,monospace">run_watch</code>と
+        <code style="font-family:ui-monospace,monospace">cli/dispatcher.py</code>の
+        <code style="font-family:ui-monospace,monospace">run_dispatcher</code>という別々の合成ルート)。
+        <b>engine</b>はこの2つだけが共有する実行エンジン、<b>core</b>は3機能全部が使う最も下の葉層。
+        <b>mcp</b>は<b>core</b>だけに依存し<b>engine</b>には触れない ── 自動化を何も起動しない独立機能だから。
+      </p>
+      <p style="margin:0 0 10px">
+        <b>engine</b>と<b>core</b>は性質も違う。<b>gitlab_adapter</b>/<b>logging_</b>はこのアプリへの依存が
+        ほぼゼロ(<b>gitlab_adapter</b>は<code style="font-family:ui-monospace,monospace">logging_</code>を
+        importする以外このアプリ固有の概念を一切知らない、ほぼ独立したGitLabクライアントライブラリ)。
+        対して<b>config</b>(現状30フィールドの単一dataclass)は実測すると<b>mr_review_watcher</b>専用10個/
+        <b>issue_pipeline_container</b>専用5個/engine用12個/本当に共通3個に既に分かれており、
+        3機能の構造がconfigの中にも縮小コピーされている(分割の詳細設計は今回のスコープ外、後日検討)。
+      </p>
+      <p style="margin:0 0 10px">
+        <code style="font-family:ui-monospace,monospace">cli/single_run.py</code>(<code style="font-family:ui-monospace,monospace">execute_review</code>本体)は
+        <b>mr_review_watcher</b>だけでなく<code style="font-family:ui-monospace,monospace">cli/dispatcher.py</code>からも直接importされているため<b>engine</b>に含めた。
+        <b>design</b>/<b>implement</b>/<b>plan</b>/<b>issue_analysis</b>も同じパターンで、各フェーズの実行結線は
+        フェーズパッケージ自身ではなく<code style="font-family:ui-monospace,monospace">cli/dispatcher.py</code>側にある ──
+        「フェーズパッケージはプロンプト/パース/payload形状だけ、実行結線はcli/側」という一貫パターンなので、
+        reviewだけ<code style="font-family:ui-monospace,monospace">review/job.py</code>へ移すのは筋が悪い。
+        動かすべきはコードではなく図の分類の方だった(single_run.pyはmr_review_watcher専用ではなく共有)。
+      </p>
+      <p style="margin:0">
+        <b>cli/</b>と<b>poller/</b>は現状ひとつのパッケージだが、この機能軸で見るとファイル単位で
+        mr_review_watcher/issue_pipeline_container/mcp/engine/coreの5か所に分かれる
+        (図中の<code style="font-family:ui-monospace,monospace">cli/*.py</code>・
+        <code style="font-family:ui-monospace,monospace">poller/*.py</code>ラベルはそれを示す)。
+        ディレクトリ再編としてこれを反映するには、パッケージを丸ごと移動するだけでは済まず、
+        この2パッケージの内部分割が必要になる。
+      </p>
+    </figcaption>
+  </figure>
+
+  <section class="edges">
+    <h2>依存関係一覧(実測・59本)</h2>
+    <p class="edges-note">「X → Y」は X が Y を import している、という意味。</p>
+    <div class="edge-groups">
+      <div class="edge-group">
+        <div class="edge-src">adapter_mcp_server</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">config</span></span>
+          <span class="edge-line">→ <span class="to">gitlab_adapter</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">api</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">job</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">cli</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">api</span></span>
+          <span class="edge-line">→ <span class="to">config</span></span>
+          <span class="edge-line">→ <span class="to">design</span></span>
+          <span class="edge-line">→ <span class="to">gitlab_adapter</span></span>
+          <span class="edge-line">→ <span class="to">implement</span></span>
+          <span class="edge-line">→ <span class="to">issue_analysis</span></span>
+          <span class="edge-line">→ <span class="to">job</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">orchestrator</span></span>
+          <span class="edge-line">→ <span class="to">plan</span></span>
+          <span class="edge-line">→ <span class="to">poller</span></span>
+          <span class="edge-line">→ <span class="to">push</span></span>
+          <span class="edge-line">→ <span class="to">review</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+          <span class="edge-line">→ <span class="to">store</span></span>
+          <span class="edge-line">→ <span class="to">webhook</span></span>
+          <span class="edge-line">→ <span class="to">workspace</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">config</div>
+        <div class="edge-targets"><span class="edge-none">(依存なし・葉)</span></div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">design</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">orchestrator</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">gitlab_adapter</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">implement</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">orchestrator</span></span>
+          <span class="edge-line">→ <span class="to">plan</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">issue_analysis</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">orchestrator</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">issue_store</div>
+        <div class="edge-targets"><span class="edge-none">(依存なし・葉)</span></div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">job</div>
+        <div class="edge-targets"><span class="edge-none">(依存なし・葉)</span></div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">logging_</div>
+        <div class="edge-targets"><span class="edge-none">(依存なし・葉)</span></div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">orchestrator</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">design</span></span>
+          <span class="edge-line">→ <span class="to">implement</span></span>
+          <span class="edge-line">→ <span class="to">job</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">plan</span></span>
+          <span class="edge-line">→ <span class="to">push</span></span>
+          <span class="edge-line">→ <span class="to">review</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">plan</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">orchestrator</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">poller</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">gitlab_adapter</span></span>
+          <span class="edge-line">→ <span class="to">issue_store</span></span>
+          <span class="edge-line">→ <span class="to">job</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">store</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">push</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">gitlab_adapter</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">review</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">job</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">runner</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">runner</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">gitlab_adapter</span></span>
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">store</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">config</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">webhook</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+          <span class="edge-line">→ <span class="to">poller</span></span>
+          <span class="edge-line">→ <span class="to">store</span></span>
+        </div>
+      </div>
+      <div class="edge-group">
+        <div class="edge-src">workspace</div>
+        <div class="edge-targets">
+          <span class="edge-line">→ <span class="to">logging_</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="glossary">
+    <h2>モジュール一覧(図中の各ノードにもホバーで表示)</h2>
+
+    <p class="glossary-group is-first">mr_review_watcher</p>
+    <dl>
+      <div class="entry"><dt>poller/poller.py</dt><dd>MRを定期走査</dd></div>
+      <div class="entry"><dt>webhook</dt><dd>GitLab MR Hookを受信して起票</dd></div>
+      <div class="entry"><dt>cli/watch.py</dt><dd>常駐レビューループ</dd></div>
+      <div class="entry"><dt>cli/worker_pool.py</dt><dd>検出したMRを並行レビュー</dd></div>
+      <div class="entry"><dt>cli/lock.py</dt><dd>watchの多重起動防止</dd></div>
+    </dl>
+
+    <p class="glossary-group">issue_pipeline_container</p>
+    <dl>
+      <div class="entry"><dt>poller/issue_poller.py</dt><dd>Issueを定期走査</dd></div>
+      <div class="entry"><dt>api</dt><dd>HTTP API。JobをJob Queueに投入する入口</dd></div>
+      <div class="entry"><dt>issue_store</dt><dd>Issue起票済み状態を記録(二重投入防止)</dd></div>
+      <div class="entry"><dt>orchestrator</dt><dd>issue-analysis→design→plan→implement→push→reviewを連鎖</dd></div>
+      <div class="entry"><dt>issue_analysis</dt><dd>Issueの要求分析フェーズ</dd></div>
+      <div class="entry"><dt>design</dt><dd>設計フェーズ</dd></div>
+      <div class="entry"><dt>plan</dt><dd>実装計画フェーズ</dd></div>
+      <div class="entry"><dt>implement</dt><dd>実装(コード生成)フェーズ</dd></div>
+      <div class="entry"><dt>push</dt><dd>コミット・pushしてMR作成するフェーズ</dd></div>
+      <div class="entry"><dt>cli/dispatcher.py</dt><dd>Job Queueからclaimして処理し続けるWorker本体</dd></div>
+      <div class="entry"><dt>cli/api_server.py</dt><dd>apiサブコマンドの合成ルート</dd></div>
+      <div class="entry"><dt>cli/respond.py</dt><dd>WAITING_HUMANなJobへの人間の回答を取り込む</dd></div>
+    </dl>
+
+    <p class="glossary-group">mcp</p>
+    <dl>
+      <div class="entry"><dt>adapter_mcp_server</dt><dd>対話型Claude Code向けGitLab操作MCPサーバー</dd></div>
+      <div class="entry"><dt>cli/decompose.py</dt><dd>要件→Issue分解の対話型セッション</dd></div>
+    </dl>
+
+    <p class="glossary-group">engine · mr_review_watcherとissue_pipeline_containerだけが共有</p>
+    <dl>
+      <div class="entry"><dt>runner</dt><dd>worktree上でClaude Codeをヘッドレス実行</dd></div>
+      <div class="entry"><dt>workspace</dt><dd>bare clone + worktreeの作成/更新/GC</dd></div>
+      <div class="entry"><dt>store</dt><dd>MRレビュー状態を記録(二重レビュー防止)</dd></div>
+      <div class="entry"><dt>job</dt><dd>Job抽象・状態機械とJob Queue</dd></div>
+      <div class="entry"><dt>review</dt><dd>レビュープロンプトと結果スキーマの定義</dd></div>
+      <div class="entry"><dt>cli/single_run.py</dt><dd>execute_review(review本体の結線)。watch.pyとdispatcher.py双方から呼ばれる</dd></div>
+    </dl>
+
+    <p class="glossary-group">core · 全機能が使う(何にも依存しない葉)</p>
+    <dl>
+      <div class="entry"><dt>gitlab_adapter</dt><dd>GitLabとのやりとりを一手に引き受ける唯一の窓口</dd></div>
+      <div class="entry"><dt>logging_</dt><dd>構造化ログ・実行ID付与</dd></div>
+      <div class="entry"><dt>config</dt><dd>GitLab PAT・対象プロジェクト等の設定管理</dd></div>
+    </dl>
+
+    <p class="glossary-group">cli · 5グループの外側にある薄いアグリゲータ(逆に全部へ依存する)</p>
+    <dl>
+      <div class="entry"><dt>cli/main.py</dt><dd>5グループ全部のサブコマンドを束ねるエントリポイント(+exit_codes.py)</dd></div>
+    </dl>
+  </section>
+
+  <section class="findings">
+    <article class="finding">
+      <span class="num">01</span>
+      <h2>技術レイヤーは機能の違いを潰していた</h2>
+      <p>
+        「entrypoints/pipeline/adapters/infra」という4層グリッドは、<code>adapter_mcp_server</code> が
+        自動化を何も起動しない独立機能であることを覆い隠していた。ユーザーが実際に使う機能
+        (mr_review_watcher/issue_pipeline_container/mcp)から出発しないと、この違いは見えない。
+      </p>
+    </article>
+    <article class="finding">
+      <span class="num">02</span>
+      <h2>2機能は別プロセスだが実行エンジンは共有</h2>
+      <p>
+        <code>cli/watch.py</code>(mr_review_watcher)と <code>cli/dispatcher.py</code>
+        (issue_pipeline_container)は別々の合成ルートとして最初から設計されている(ADR-0022)。
+        ただし <code>runner</code>/<code>workspace</code>/<code>store</code>/<code>job</code>/
+        <code>review</code>/<code>cli/single_run.py</code> という実行エンジン(engine)は
+        両方から使われる汎用実装で、どちらか一方の機能には属さない。
+      </p>
+    </article>
+    <article class="finding">
+      <span class="num">03</span>
+      <h2>cli/とpoller/はファイル単位で分割される</h2>
+      <p>
+        既存の2パッケージは機能ごとの塊ではない。<code>cli</code> は9ファイルが
+        mr_review_watcher/issue_pipeline_container/mcp/engine/coreの5か所に、
+        <code>poller</code> は2ファイルがmr_review_watcher/issue_pipeline_containerに分かれる。
+        ディレクトリ再編は「パッケージを丸ごと移動」では済まず、この2パッケージの内部分割を伴う。
+      </p>
+    </article>
+  </section>
+
+  <footer>
+    <span>src/gitlab_ai_platform · 20 modules → mr_review_watcher/issue_pipeline_container/mcp/engine/core の5グループ(cli・pollerは内部分割)</span>
+    <span>plan: <code>src-gitlab-ai-platform-goofy-thimble.md</code> / <code>docs/adr/0001-repository-structure.md</code></span>
+  </footer>
+
+</div>
