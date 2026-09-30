@@ -1,0 +1,43 @@
+version: 1
+survey_date: '2026-09-30'
+audience: Java開発経験者・Python/FastAPI未経験
+minutes_total: 285
+notes:
+  - 学習時間は推定値であり実測ではない
+  - 初期研修URLはWebで内容を確認済み
+  - 教材本文は転載しない
+tracks:
+  - id: python
+    title: Python
+    minutes: 105
+    items:
+      - {id: PY01, minutes: 10, url: 'https://qiita.com/yukikoblog8376/items/41df37828fd96ef6d2c7', sections: 'Java/Pythonの文法・繰り返し・リスト・クラス比較', goal: 'Javaとの違いを理解', verified: true}
+      - {id: PY02, minutes: 20, url: 'https://docs.python.org/ja/3/tutorial/introduction.html', sections: '3.1.2, 3.1.3', skip: '3.1.1', goal: '文字列とリスト', verified: true}
+      - {id: PY03, minutes: 25, url: 'https://docs.python.org/ja/3/tutorial/controlflow.html', sections: '4.1-4.3、4.8の関数定義と引数', goal: '制御フローと関数', verified: true}
+      - {id: PY04, minutes: 25, url: 'https://docs.python.org/ja/3/tutorial/datastructures.html', sections: '5.1、5.5、5.6', goal: 'リストと辞書', verified: true}
+      - {id: PY05, minutes: 15, url: 'https://docs.python.org/ja/3/tutorial/errors.html', sections: '8.1-8.4', goal: '例外処理', verified: true}
+      - {id: PY06, minutes: 10, kind: quiz, goal: 'コード読解', verified: true}
+  - id: webapi
+    title: Web API
+    minutes: 60
+    items:
+      - {id: WEB01, minutes: 15, url: 'https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/Overview', sections: '構成要素・フロー・メッセージ', goal: 'HTTP通信の理解', verified: true}
+      - {id: WEB02, minutes: 15, url: 'https://aws.amazon.com/jp/what-is/restful-api/', sections: 'APIとは・RESTとは・仕組み・クライアントリクエスト', goal: 'REST APIの基本', verified: true}
+      - {id: WEB03, minutes: 10, url: 'https://developer.mozilla.org/ja/docs/Web/HTTP/Reference/Methods', sections: 'GET POST PUT DELETE', goal: 'HTTPメソッド', verified: true}
+      - {id: WEB04, minutes: 10, url: 'https://developer.mozilla.org/ja/docs/Web/HTTP/Reference/Status', sections: '200 201 400 401 403 404 422 500 503', goal: 'HTTPステータス', verified: true}
+      - {id: WEB05, minutes: 10, kind: quiz, goal: 'HTTP通信の読解', verified: true}
+  - id: fastapi
+    title: FastAPI
+    minutes: 120
+    items:
+      - {id: FA01, minutes: 15, url: 'https://zenn.dev/oit2003/articles/5f344b75ad5391', sections: '概要・最小アプリ・Swagger UI', goal: '全体像', verified: true}
+      - {id: FA02, minutes: 20, url: 'https://fastapi.tiangolo.com/ja/tutorial/first-steps/', sections: '最小アプリ・起動・docs・OpenAPI', goal: 'GET API', verified: true}
+      - {id: FA03, minutes: 20, urls: ['https://fastapi.tiangolo.com/ja/tutorial/path-params/', 'https://fastapi.tiangolo.com/ja/tutorial/query-params/'], sections: '型宣言・デフォルト値・検証', goal: 'パラメータ', verified: true}
+      - {id: FA04, minutes: 20, url: 'https://fastapi.tiangolo.com/ja/tutorial/body/', sections: 'Pydanticモデル・型・ボディ', goal: 'JSON入力', verified: true}
+      - {id: FA05, minutes: 15, url: 'https://fastapi.tiangolo.com/ja/tutorial/response-model/', sections: '戻り値の型・response_model', goal: '出力形式', verified: true}
+      - {id: FA06, minutes: 15, url: 'https://fastapi.tiangolo.com/ja/tutorial/handling-errors/', sections: 'HTTPException', goal: 'HTTPエラー', verified: true}
+      - {id: FA07, minutes: 15, kind: exercise, goal: '市場データ検索API', verified: true}
+followup:
+  - {topic: 'Pythonクラス・モジュール・venv', verified: false}
+  - {topic: 'FastAPI依存性注入・大規模アプリ・テスト', verified: false}
+  - {topic: '同期非同期・SQLAlchemy・API Key・pytest・uv', verified: false}

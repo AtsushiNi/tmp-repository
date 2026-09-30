@@ -1,0 +1,121 @@
+schema_version: '1.0'
+subject: financial_risk_measurement
+verified_on: '2026-09-30'
+audience: Java経験者・金融未経験者
+initial_total_minutes: 315
+verification_policy:
+  verified_page: ページ本文または索引をWebで開いて確認
+  verified_search: 検索結果で確認したが本文の再オープンは失敗
+  not_verified: 内容未確認
+terminology:
+  CE: '現在エクスポージャー。単一無担保取引の例はmax(V0,0)'
+  PE: '案件固有：想定元本×掛目によるアドオン'
+  simple_exposure: '案件固有の基本形：CE+PE'
+  PFE_simulation: '将来エクスポージャー分布の所定分位点（信頼水準は案件仕様）'
+  PFE_SACCR: 'SA-CCRで定義される規制上のPFE成分。シミュレーション分位点と区別'
+  CVA: '期待エクスポージャー・デフォルト確率・回収率・割引などを用いた信用評価調整'
+modules:
+  - id: derivatives
+    title: デリバティブの基礎
+    initial_minutes: 75
+    objective: 先物・オプション・スワップの契約とキャッシュフローを説明できる
+    resources:
+      - {id: jpx_columns, minutes: 45, scope: '第1〜3話', skip: '第4話以降'}
+      - {id: jsda_structured, minutes: 10, scope: '第1項', skip: '詳細な販売リスク説明'}
+    exercise_minutes: 20
+  - id: valuation
+    title: 時価評価・リスクファクター
+    initial_minutes: 60
+    objective: 市場データから時価評価を行う処理を説明できる
+    resources:
+      - {id: jpx_option_calc, minutes: 15, scope: '説明と価格変化の観察', skip: '売買戦略'}
+      - {id: mathworks_cva, minutes: 20, scope: 'リスクファクターと将来評価の説明', skip: 'MATLABコード詳細'}
+    exercise_minutes: 25
+  - id: exposure
+    title: CE・PE・PFEとCVA概要
+    initial_minutes: 90
+    objective: CE+PE簡便方式とPFEシミュレーション方式を区別できる
+    resources:
+      - {id: bis_cre50, minutes: 15, scope: '50.26〜50.28', skip: 'その他の定義詳細'}
+      - {id: eba_cem, minutes: 15, scope: '質問と最終回答', skip: '法改正の細部'}
+    exercise_minutes: 60
+  - id: monte_carlo
+    title: モンテカルロ法
+    initial_minutes: 90
+    objective: シナリオ生成・将来評価・エクスポージャー・分位点を順に説明できる
+    resources:
+      - {id: mathworks_cva, minutes: 35, scope: '導入・シナリオ・Exposure・CVAの説明', skip: 'MATLABコードと校正詳細'}
+    exercise_minutes: 55
+resources:
+  - id: jpx_columns
+    title: JPX 有識者コラム
+    publisher: 日本取引所グループ
+    language: ja
+    url: https://www.jpx.co.jp/derivatives/market-report/column/index.html
+    status: verified_page
+    version: '第1〜3話：2015年掲載（索引確認）'
+    reason: 金融未経験者に先物・オプション・スワップを日本語で説明
+    caveat: 個別PDF全文の精査は未実施
+  - id: jsda_structured
+    title: 仕組債とは？
+    publisher: 日本証券業協会
+    language: ja
+    url: https://www.jsda.or.jp/about/hatten/risk/shikumisai/index.html
+    status: verified_page
+    version: Web掲載版・版番号未記載
+    reason: スワップ・オプションとキャッシュフローの関係を示す
+  - id: jpx_option_calc
+    title: オプション価格計算ツール
+    publisher: 日本取引所グループ
+    language: ja
+    url: https://www.jpx.co.jp/markets/derivatives/options-calculator/
+    status: verified_page
+    version: Web掲載版・版番号未記載
+    reason: 市場入力と理論価格の関係を体験できる
+    caveat: リンク先のツール実行は未検証
+  - id: bis_cre50
+    title: Counterparty credit risk definitions and terminology
+    publisher: Basel Committee / BIS
+    language: en
+    url: https://www.bis.org/committees/bcbs/basel-framework/standard/cre/50/inforce/2019-12-15/published/2019-12-15
+    status: verified_page
+    version: 'in force 2019-12-15 / published 2019-12-15'
+    reason: CE・Peak Exposure・EEの一次定義
+  - id: eba_cem
+    title: EBA Q&A 2013_611 Mark-to-market Method
+    publisher: European Banking Authority
+    language: en
+    url: https://www.eba.europa.eu/single-rule-book-qa/qna/view/publicId/2013_611
+    status: verified_search
+    version: '2013 Q&A; archived 2021-09-16'
+    reason: 現在の正の時価と想定元本×掛目の加算方式を確認
+    caveat: 旧規制方式。現行SA-CCRの説明として使用禁止
+  - id: mathworks_cva
+    title: Counterparty Credit Risk and CVA
+    publisher: MathWorks
+    language: en
+    url: https://www.mathworks.com/help/fininst/counterparty-credit-risk-and-cva.html
+    status: verified_page
+    version: Web掲載版・版番号未記載
+    reason: シナリオ・将来時価・EE・CVAの処理例
+  - id: bis_cre52
+    title: Standardised approach to counterparty credit risk
+    publisher: Basel Committee / BIS
+    language: en
+    url: https://www.bis.org/committees/bcbs/basel-framework/standard/cre/52/inforce/2019-12-15/published/2020-06-05
+    status: verified_search
+    version: 'in force 2019-12-15 / published 2020-06-05'
+    reason: SA-CCRの規制式と案件の簡便方式の違い
+    phase: advanced
+    caveat: 本文再オープン失敗。最新適用版は実務で別途確認
+advanced_topics:
+  - ネッティングと担保
+  - SA-CCRと旧CEMの違い
+  - リスク中立測度と実世界測度
+  - CVAとWrong-way risk
+  - モデル校正・モンテカルロ高速化
+project_specific_unverified:
+  - PE掛目テーブルの実値と条件
+  - CEの集計単位・担保・ネッティング仕様
+  - PFE信頼水準・時点・分位点補間方法
+  - PFEとCVAのシナリオ・測度・モデル共用可否

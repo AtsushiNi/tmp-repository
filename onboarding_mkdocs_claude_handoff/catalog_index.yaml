@@ -1,0 +1,26 @@
+schema_version: '1.0'
+compiled_on: '2026-09-30'
+initial_total_minutes: 1080
+source_lessons_minutes: 960
+project_intro_and_review_and_integration_minutes: 120
+tracks:
+- id: python_webapi_fastapi
+  initial_minutes: 285
+  catalog: tracks/python_webapi_fastapi/catalog.yaml
+  guide: tracks/python_webapi_fastapi/guide.md
+  source_verification_date: '2026-09-30'
+- id: container_ecs_valkey
+  initial_minutes: 255
+  catalog: tracks/container_ecs_valkey/catalog.yaml
+  guide: tracks/container_ecs_valkey/guide.md
+  source_verification_date: '2026-09-30'
+- id: gitlab_claude_code
+  initial_minutes: 105
+  catalog: tracks/gitlab_claude_code/catalog.yaml
+  guide: tracks/gitlab_claude_code/guide.md
+  source_verification_date: '2026-09-30'
+- id: financial_risk
+  initial_minutes: 315
+  catalog: tracks/financial_risk/catalog.yaml
+  guide: tracks/financial_risk/guide.md
+  source_verification_date: '2026-09-30'

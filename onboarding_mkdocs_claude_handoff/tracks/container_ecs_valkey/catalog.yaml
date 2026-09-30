@@ -1,0 +1,256 @@
+version: 2
+survey_date: '2026-09-30'
+audience: Java開発経験者・コンテナ/ECS/Valkey未経験
+minutes_total: 255
+verification_note: 主要ページの内容をWebで確認済み。全コード実行や全節の精査は未実施。
+tracks:
+- id: container
+  title: コンテナ
+  minutes: 75
+  items:
+  - id: CT01
+    minutes: 20
+    url: https://zenn.dev/yujmatsu/articles/20260106_docker_beginner
+    sections: Dockerとは、コンテナとVM、イメージとコンテナ
+    skip: dbt固有の話題、運用の詳細
+    goal: コンテナの役割
+    verified: true
+    phase: initial
+    version_scope: Dockerの概念説明。特定バージョン非依存
+    title: Docker入門（日本語）
+    verified_on: '2026-09-30'
+    reason: 日本語で概念をつかむ。dbt固有の記述は一般仕様として採用しない
+    verification_method: web_open
+    runtime_tested: false
+  - id: CT02
+    minutes: 25
+    url: https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/
+    sections: Dockerfile例、主要命令
+    skip: ビルド最適化の詳細
+    goal: Dockerfile読解
+    verified: true
+    phase: initial
+    version_scope: Docker Docs 現行Web版・Dockerfile構文の固定版未指定
+    title: Docker公式 Writing a Dockerfile
+    verified_on: '2026-09-30'
+    reason: PythonアプリのDockerfile例があり案件に近い
+    verification_method: web_open
+    runtime_tested: false
+  - id: CT03
+    minutes: 15
+    url: https://docs.docker.com/reference/dockerfile
+    sections: CMDとENTRYPOINTを中心に読む。FROM/RUN/COPYはCT02の復習のみ
+    skip: CT02で理解済みの説明、詳細構文・高度なオプション
+    goal: ビルド時と実行時の違い
+    verified: true
+    phase: initial
+    version_scope: Dockerfile reference 現行Web版・固定版未指定
+    title: Docker公式 Dockerfile reference
+    verified_on: '2026-09-30'
+    reason: CT02と重複するFROM/RUN/COPYは復習程度にしCMD/ENTRYPOINTの違いを優先
+    verification_method: web_open
+    runtime_tested: false
+  - id: CT04
+    minutes: 15
+    kind: quiz
+    goal: コンテナの理解度確認
+    verified: true
+    phase: initial
+    version_scope: 研修の概念理解（製品バージョン未指定）
+    verified_on: null
+    verification_method: original_quiz
+    runtime_tested: false
+- id: ecs
+  title: AWS ECS
+  minutes: 105
+  items:
+  - id: ECS01
+    minutes: 20
+    url: https://zenn.dev/tmtk/articles/a15f71f8150a86
+    sections: はじめに、主要構成要素
+    skip: 細かな運用論
+    goal: ECS構成要素
+    verified: true
+    phase: initial
+    version_scope: ECS概念・固定版なし
+    title: ECS構成要素の日本語入門
+    verified_on: '2026-09-30'
+    reason: 構成要素の導入。細部はAWS公式で照合
+    verification_method: web_open
+    runtime_tested: false
+  - id: ECS02
+    minutes: 25
+    url: https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/task_definitions.html
+    sections: 概要、タスクとサービス
+    skip: 関連トピック詳細
+    goal: タスク定義の理解
+    verified: true
+    phase: initial
+    version_scope: AWS ECS Developer Guide latest
+    title: AWS ECS タスク定義
+    verified_on: '2026-09-30'
+    reason: タスク定義・タスク・サービスの定義を公式で確認
+    verification_method: web_open
+    runtime_tested: false
+  - id: ECS03
+    minutes: 30
+    url: https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/getting-started-fargate.html
+    sections: ステップ1-4の概要
+    skip: 実環境作成・削除
+    goal: ECS実行フロー
+    verified: true
+    phase: initial
+    version_scope: AWS ECS Developer Guide latest・Linux Fargate
+    title: AWS ECS Fargate開始ガイド
+    verified_on: '2026-09-30'
+    reason: ステップ1〜4で実行の流れを追える。実操作不要
+    verification_method: web_open
+    runtime_tested: false
+  - id: ECS04
+    minutes: 15
+    url: https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/task_definition_parameters.html
+    sections: タスクサイズ、コンテナ定義、ネットワークモード
+    skip: 全パラメータ網羅
+    goal: 設定値の役割
+    verified: true
+    phase: initial
+    version_scope: AWS ECS Developer Guide latest・Fargate
+    title: AWS Fargateタスク定義パラメータ
+    verified_on: '2026-09-30'
+    reason: タスクCPU/メモリとコンテナ定義を読む
+    verification_method: web_open
+    runtime_tested: false
+  - id: ECS05
+    minutes: 15
+    kind: quiz
+    goal: ECS理解度確認
+    verified: true
+    phase: initial
+    version_scope: 研修の概念理解（製品バージョン未指定）
+    verified_on: null
+    verification_method: original_quiz
+    runtime_tested: false
+- id: valkey
+  title: Valkey
+  minutes: 75
+  items:
+  - id: VK01
+    minutes: 10
+    url: https://qiita.com/future_kame/items/2b872168cc6b6c8306b8
+    sections: Redisとは、Valkeyとは、特徴
+    skip: ライセンス・移行の細部
+    goal: Valkeyの位置付け
+    verified: true
+    phase: initial
+    version_scope: 記事公開時点の比較・製品版未固定
+    title: ValkeyとRedisの比較（日本語）
+    verified_on: '2026-09-30'
+    reason: 日本語の導入。バージョン/ライセンスの最新性は公式優先
+    verification_method: web_open
+    runtime_tested: false
+  - id: VK02
+    minutes: 30
+    url: https://valkey.io/topics/quickstart/
+    sections: 'What is Valkey、Data Operations、Strings、Hashes、Example Use Case: Caching with Valkey（TTLを含む）'
+    skip: Installation and Setup、Best Practicesの詳細、Next Steps
+    goal: 基本操作
+    verified: true
+    phase: initial
+    version_scope: Valkey公式現行Web版・固定版なし
+    title: Valkey公式 Quick start
+    verified_on: '2026-09-30'
+    reason: SET/GET/HSET/HGETとキャッシュTTL例を学べる
+    verification_method: web_open
+    runtime_tested: false
+  - id: VK03
+    minutes: 20
+    url: https://valkey.io/docs/topics/data-types/
+    sections: Strings、Hashes、Lists、Sets、Sorted Setsの概要
+    skip: 個別コマンド全リファレンス
+    goal: データ型の理解
+    verified: true
+    phase: initial
+    version_scope: Valkey公式現行Web版・固定版なし
+    title: Valkey公式 Data types
+    verified_on: '2026-09-30'
+    reason: 型一覧の検索抽出本文で確認。直接openはリダイレクトのみ
+    verification_method: web_search_excerpt
+    runtime_tested: false
+    verification_note: 検索結果の本文抜粋で型の説明を確認。直接ページ表示はリダイレクトのみ。
+  - id: VK04
+    minutes: 15
+    kind: quiz
+    goal: Valkey理解度確認
+    verified: true
+    phase: initial
+    version_scope: 研修の概念理解（製品バージョン未指定）
+    verified_on: null
+    verification_method: original_quiz
+    runtime_tested: false
+followup:
+- id: ADV-CT01
+  topic: コンテナのイメージ最適化・セキュリティ
+  url: https://docs.docker.com/reference/dockerfile
+  sections: マルチステージ、USER、HEALTHCHECK
+  skip: 未使用命令の網羅
+  minutes_estimate: 30
+  verified: true
+  verified_on: '2026-09-30'
+  version_scope: Dockerfile reference 現行Web版
+  reason: 既存公式リファレンスを再利用。各節の実行確認は未実施
+- id: ADV-ECS01
+  topic: ECS起動基盤・キャパシティプロバイダー
+  url: https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/capacity-launch-type-comparison.html
+  sections: 起動タイプ、キャパシティプロバイダー、FargateとEC2の違い
+  skip: 移行パターンの網羅
+  minutes_estimate: 30
+  verified: true
+  verified_on: '2026-09-30'
+  version_scope: AWS ECS latest
+  reason: 現行AWS資料ではManaged Instancesも説明されており旧来の二択にしない
+- id: ADV-ECS02
+  topic: ECS障害解析・CloudWatch・ALB・スケーリング
+  url: null
+  sections: null
+  skip: null
+  minutes_estimate: null
+  verified: false
+  verified_on: null
+  version_scope: 未選定
+  reason: 調査範囲外。リンクや時間を推測しない
+- id: ADV-VK01
+  topic: Valkey TTL・キャッシュミス・期限切れ
+  url: https://valkey.io/topics/quickstart/
+  sections: 'Example Use Case: Caching with Valkey、Best Practices and Troubleshooting'
+  skip: インストール・高度なモジュール
+  minutes_estimate: 25
+  verified: true
+  verified_on: '2026-09-30'
+  version_scope: Valkey公式現行Web版
+  reason: TTL、キャッシュミス、メモリ管理の基礎を確認できる
+- id: ADV-VK02
+  topic: ElastiCache Valkeyエンジンのバージョン
+  url: https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html
+  sections: Valkeyエンジンの対応バージョンと更新上の注意
+  skip: Redis OSS/Memcachedの詳細
+  minutes_estimate: 25
+  verified: true
+  verified_on: '2026-09-30'
+  version_scope: AWS ElastiCache latest（掲載バージョンは更新される）
+  reason: サービス側のバージョン対応を公式で確認
+- id: ADV-VK03
+  topic: RDB→Valkey同期の運用設計・整合性保証
+  url: null
+  sections: null
+  skip: null
+  minutes_estimate: null
+  verified: false
+  verified_on: null
+  version_scope: 案件固有
+  reason: 同期方式、許容遅延、障害時動作が未提示。案件仕様で確定する
+verified_on: '2026-09-30'
+verification_policy:
+  verified_true: 2026-09-30にページ本文または検索抽出本文で対象内容を確認。実行テストは含まない
+  verified_false: 当該ページの本文・該当節を今回確認できていない
+  runtime_tested: false
+  version_policy: latest表記の公式ドキュメントは固定バージョンではない。実案件の採用バージョンは未提示
